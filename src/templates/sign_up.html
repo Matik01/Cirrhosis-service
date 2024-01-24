@@ -1,19 +1,54 @@
 <!DOCTYPE html>
-<html>
-   <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-   </head>
-   <body>
-      <h1>Sign up</h1>
-      <form method="post" action='/sign-up-action'>
-         <label for="name">Your new login:</label><br>
-         <input type="text" id="name" name="name">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Form</title>
+</head>
+<body>
+    <h2>Sign Up </h2>
+    <form id="signupForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
 
-          <label for="password">Your new password:</label><br>
-         <input type="text" id="password" name="password">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br>
 
-         <input class="submit" type="submit" value="Submit">
-      </form>
-   </body>
+        <button type="button" onclick="submitForm()">Submit</button>
+    </form>
+
+    <script>
+        function submitForm() {
+
+            var name = document.getElementById("name").value;
+            var password = document.getElementById("password").value;
+
+
+            var data = {
+                "name": name,
+                "password": password
+            };
+
+            fetch('/auth/sign-up-action', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                localStorage.setItem('jwtToken', JSON.stringify({ token: data.token }));
+                console.log(localStorage.getItem('jwtToken'));
+                window.location.href = '/auth/sign-in';
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+
+            });
+        }
+    </script>
+</body>
+</html>>
 </html>

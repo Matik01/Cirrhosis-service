@@ -4,12 +4,12 @@ from pydantic import BaseModel
 class SignInResponse(BaseModel):
     name: str
     money: int
+    is_active: bool
 
 
 class SignIn(BaseModel):
     name: str
     password: str
-    token: str
 
 
 class SignUp(BaseModel):
@@ -18,6 +18,4 @@ class SignUp(BaseModel):
 
 
 class SignUpResponse(BaseModel):
-    name: str
-    password: str
     token: str

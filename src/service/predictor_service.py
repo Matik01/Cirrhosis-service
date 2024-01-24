@@ -15,3 +15,8 @@ def make_prediction(schema: PredictionRequest, db):
     prothrombin = schema.prothrombin
     return predictor.predict([[age, bilirubin, cholesterol, albumin, copper,
                                sgot, tryglicerides, platelets, prothrombin]])
+
+
+def get_predictor_cost(schema: PredictionRequest, db):
+    return base_repository.get_predictor_cost_by_name(schema.predictor_name, db)
+

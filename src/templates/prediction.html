@@ -1,17 +1,97 @@
 <!DOCTYPE html>
-<html>
-   <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-   </head>
-   <body>
-      <h1>Fill fields with your parameters</h1>
-      <form method="post" action='/prediction-action'>
-         <label for="login">Your new login:</label><br>
-         <input type="text" id="login" name="name">
-          <label for="password">Your new password:</label><br>
-         <input type="text" id="password" name="password">
-         <input class="submit" type="submit" value="Submit">
-      </form>
-   </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Request Form</title>
+</head>
+<body>
+<h2>Prediction Request Form</h2>
+<label for="predictor_name">Predictor Name:</label>
+<select id="predictor_name" name="predictor_name" required>
+    <option value="LogReg">LogReg</option>
+    <option value="TreeDecision">TreeDecision</option>
+</select><br>
+
+<label for="age">Age:</label>
+<input type="number" id="age" name="age" required><br>
+
+<label for="bilirubin">Bilirubin:</label>
+<input type="number" step="0.01" id="bilirubin" name="bilirubin" required><br>
+
+<label for="cholesterol">Cholesterol:</label>
+<input type="number" step="0.01" id="cholesterol" name="cholesterol" required><br>
+
+<label for="albumin">Albumin:</label>
+<input type="number" step="0.01" id="albumin" name="albumin" required><br>
+
+<label for="copper">Copper:</label>
+<input type="number" step="0.01" id="copper" name="copper" required><br>
+
+<label for="sgot">SGOT:</label>
+<input type="number" step="0.01" id="sgot" name="sgot" required><br>
+
+<label for="tryglicerides">Triglycerides:</label>
+<input type="number" step="0.01" id="tryglicerides" name="tryglicerides" required><br>
+
+<label for="platelets">Platelets:</label>
+<input type="number" step="0.01" id="platelets" name="platelets" required><br>
+
+<label for="prothrombin">Prothrombin:</label>
+<input type="number" step="0.01" id="prothrombin" name="prothrombin" required><br>
+
+<button type="button" onclick="submitForm()">Submit</button>
+</form>
+
+<script>
+    function submitForm() {
+
+        var predictor_name = document.getElementById("predictor_name").value;
+        var age = parseFloat(document.getElementById("age").value);
+        var bilirubin = parseFloat(document.getElementById("bilirubin").value);
+        var cholesterol = parseFloat(document.getElementById("cholesterol").value);
+        var albumin = parseFloat(document.getElementById("albumin").value);
+        var copper = parseFloat(document.getElementById("copper").value);
+        var sgot = parseFloat(document.getElementById("sgot").value);
+        var tryglicerides = parseFloat(document.getElementById("tryglicerides").value);
+        var platelets = parseFloat(document.getElementById("platelets").value);
+        var prothrombin = parseFloat(document.getElementById("prothrombin").value);
+
+
+        var data = {
+            "predictor_name": predictor_name,
+            "age": age,
+            "bilirubin": bilirubin,
+            "cholesterol": cholesterol,
+            "albumin": albumin,
+            "copper": copper,
+            "sgot": sgot,
+            "tryglicerides": tryglicerides,
+            "platelets": platelets,
+            "prothrombin": prothrombin
+        };
+
+        var jwtToken = JSON.parse(localStorage.getItem('jwtToken'));
+
+        fetch('/auth/prediction-action', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + jwtToken.token
+
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then(result => {
+                console.log('Prediction Result:', result);
+
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+
+            });
+    }
+</script>
+</body>
 </html>

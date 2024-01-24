@@ -10,5 +10,5 @@ class User(Base):
     name = Column(String)
     password = Column(String, default="")
     money = Column(Integer, default=1000)
-    is_active = Column(Boolean, default=True)
+    is_active = Column(Boolean, default=False)
     token = Column(String, default="")

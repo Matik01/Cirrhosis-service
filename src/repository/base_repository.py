@@ -5,12 +5,16 @@ PREDICTOR_NAMES = ["LogReg", "TreeDecision"]
 
 
 def get_predictor_by_name(name: str, session):
-    predictor_name = session.query(Predictor).filter(Predictor.name == name).first()
-    for name in PREDICTOR_NAMES:
-        if predictor_name == name and name == "LogReg":
-            return predictor_model.get_logregression_model()
-        elif predictor_name == name and name == "TreeDecision":
-            return predictor_model.gey_decision_tree_model()
+    predictor_db = session.query(Predictor).filter(Predictor.name == name).one()
+    if predictor_db.name == "LogReg":
+        return predictor_model.get_logregression_model()
+    elif predictor_db.name in "TreeDecision":
+        return predictor_model.gey_decision_tree_model()
+
+
+def get_predictor_cost_by_name(name: str, session):
+    predictor_db = session.query(Predictor).filter(Predictor.name == name).one()
+    return predictor_db.cost
 
 # def get_all_predictions_by_predictor_name(self, name: str):
 #     predictor = self.session.query(Predictor).filter(Predictor.name == name).first()
