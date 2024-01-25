@@ -67,8 +67,9 @@ async def prediction_action(credentials: Annotated[HTTPAuthorizationCredentials,
     user_money = user_service.get_money_by_name(username, db)
     predictor_cost = predictor_service.get_predictor_cost(prediction_request, db)
     user_money_difference = user_money - predictor_cost
+    print(user_money_difference)
     if user_money_difference < 0:
-        return 0
+        return {"stage_result": "no money"}
     else:
         user_service.update_user_money(username, user_money_difference, db)
         predictor_result = {

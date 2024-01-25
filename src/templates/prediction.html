@@ -43,6 +43,10 @@
 <button type="button" onclick="submitForm()">Submit</button>
 </form>
 
+<div id="resultContainer">
+
+</div>
+
 <script>
     function submitForm() {
 
@@ -85,7 +89,7 @@
             .then(response => response.json())
             .then(result => {
                 console.log('Prediction Result:', result);
-
+                document.getElementById('resultContainer').innerHTML = 'Prediction Result: ' + JSON.stringify(result);
             })
             .catch((error) => {
                 console.error('Error:', error);

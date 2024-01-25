@@ -53,4 +53,4 @@ def get_username_by_token(token: str, db):
 
 
 def update_user_money(name: str, money_difference: int, db):
-    return update_user_money(name, money_difference, db)
+    return user_repository.update_user_money_by_name(name, money_difference, db)
